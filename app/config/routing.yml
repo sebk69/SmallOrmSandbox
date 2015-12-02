@@ -1,7 +1,7 @@
 sebk_small_user:
     resource: "@SebkSmallUserBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /api/users
 
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
+#app:
+#    resource: "@AppBundle/Controller/"
+#    type:     annotation

@@ -15,12 +15,13 @@
     ],
     "require": {
         "php": ">=5.3.9",
-        "symfony/symfony": "2.7.*",
+        "symfony/symfony": "2.7.6",
         "symfony/assetic-bundle": "~2.3",
         "symfony/swiftmailer-bundle": "~2.3",
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
+        "lexik/jwt-authentication-bundle": "*",
         "Sebk/SmallOrmBundle": "dev-master"
     },
     "require-dev": {
