@@ -77,3 +77,4 @@ sebk_small_orm:
                 default:
                     dao_namespace: Sebk\SmallUserBundle\Dao
                     model_namespace: Sebk\SmallUserBundle\Model
+                    validator_namespace: Sebk\SmallUserBundle\Validator
