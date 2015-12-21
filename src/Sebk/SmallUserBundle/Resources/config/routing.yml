@@ -1,3 +1,0 @@
-small_user_routes:
-    resource: "@SebkSmallUserBundle/Controller"
-    type:     annotation
