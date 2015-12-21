@@ -14,6 +14,15 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
+     * @route("/login_check", options={"expose"=true})
+     * @method({"POST"})
+     */
+    public function loginCheckAction()
+    {
+
+    }
+
+    /**
      * @route("/myself", options={"expose"=true})
      * @method({"GET"})
      */

@@ -12,11 +12,11 @@ security:
     firewalls:
         login:
             provider: small_users
-            pattern:  ^/api/login
+            pattern:  ^/api/users/login
             stateless: true
             anonymous: true
             form_login:
-                check_path:               /api/login_check
+                check_path:               /api/users/login_check
                 success_handler:          lexik_jwt_authentication.handler.authentication_success
                 failure_handler:          lexik_jwt_authentication.handler.authentication_failure
                 require_previous_session: false
@@ -26,5 +26,5 @@ security:
             lexik_jwt: ~
 
     access_control:
-        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/users/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }

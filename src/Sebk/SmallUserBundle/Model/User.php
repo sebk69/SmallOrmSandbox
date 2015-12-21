@@ -12,6 +12,10 @@ use Sebk\SmallOrmBundle\Dao\Model;
 
 class User extends Model implements UserInterface, \Serializable
 {
+    public function beforeSave()
+    {
+        $this->setUpdatedAt(new \DateTime);
+    }
 
     public function getUsername()
     {
@@ -21,6 +25,11 @@ class User extends Model implements UserInterface, \Serializable
     public function getSalt()
     {
         return parent::getSalt();
+    }
+
+    public function setSalt($salt)
+    {
+        return parent::setSalt($salt);
     }
 
     public function getPassword()
@@ -63,7 +72,7 @@ class User extends Model implements UserInterface, \Serializable
         $encoder       = $this->container->get('security.password_encoder');
         $encoded       = $encoder->encodePassword($this, $plainPassword);
 
-        $user->setPassword($encoded);
+        return parent::setPassword($encoded);
     }
 
     public function toArray($dependecies = true, $onlyFields = false)
@@ -73,5 +82,14 @@ class User extends Model implements UserInterface, \Serializable
         unset($array["salt"]);
 
         return $array;
+    }
+
+    public function setEmail($email)
+    {
+        if(filter_var($email, FILTER_VALIDATE_EMAIL) || $email === null) {
+            return parent::setEmail($email);
+        }
+
+        throw new \Exception("Invalid email");
     }
 }
