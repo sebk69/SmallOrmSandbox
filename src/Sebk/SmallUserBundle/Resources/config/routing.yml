@@ -1,3 +1,3 @@
-sebk_small_user_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: SebkSmallUserBundle:Default:index }
+sebk_small_user_bundle_routes:
+    resource: "@SebkSmallUserBundle/Controller"
+    type:     annotation

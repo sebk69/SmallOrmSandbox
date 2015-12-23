@@ -1,3 +1,7 @@
+sebk_projektor:
+    resource: "@SebkProjektorBundle/Resources/config/routing.yml"
+    prefix:   /
+
 sebk_small_user:
     resource: "@SebkSmallUserBundle/Resources/config/routing.yml"
     prefix:   /api/users

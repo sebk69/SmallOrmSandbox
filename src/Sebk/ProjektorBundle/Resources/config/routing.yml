@@ -1,0 +1,3 @@
+sebk_projektor_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: SebkProjektorBundle:Default:index }
