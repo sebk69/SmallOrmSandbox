@@ -10,3 +10,5 @@
 /vendor/
 /web/bundles/
 /nbproject/private/
+/src/Sebk/ProjektorBundle/Resources/public/app/dist/*
+/src/Sebk/ProjektorBundle/Resources/public/app/node_modules/*
