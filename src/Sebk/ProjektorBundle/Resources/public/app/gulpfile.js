@@ -13,6 +13,7 @@ var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
+var order = require('gulp-order');
 var concatCss = require('gulp-concat-css');
 
 // Lint Task
@@ -38,20 +39,31 @@ gulp.task('css', function () {
 
 // Concatenate & Minify JS
 gulp.task('scripts', function() {
-    return gulp.src('js/**/*.js')
-        .pipe(concat('all.js'))
+    return gulp.src('app/**/*.js')
+        .pipe(concat('app.js'))
         .pipe(gulp.dest('dist'))
-        .pipe(rename('all.min.js'))
+        .pipe(rename('app.min.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist'));
+});
+
+gulp.task('libs', function() {
+    return gulp.src('lib/**/*.js')
+        .pipe(order(["10", "20", "30"]))
+        .pipe(concat('libs.js'))
+        .pipe(gulp.dest('dist'))
+        .pipe(rename('libs.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('dist'));
 });
 
 // Watch Files For Changes
 gulp.task('watch', function() {
-    gulp.watch('js/**/*.js', ['lint', 'scripts']);
+    gulp.watch('app/**/*.js', ['lint', 'scripts']);
+    gulp.watch('lib/**/*.js', ['libs']);
     gulp.watch('scss/**/*.scss', ['sass']);
     gulp.watch('css/**/*.css', ['css']);
 });
 
 // Default Task
-gulp.task('default', ['lint', 'sass', 'css', 'scripts', 'watch']);
+gulp.task('default', ['lint', 'sass', 'css', 'scripts', 'watch', 'libs']);

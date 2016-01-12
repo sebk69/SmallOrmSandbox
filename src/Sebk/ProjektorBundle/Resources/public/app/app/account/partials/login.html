@@ -1,0 +1,13 @@
+<div class="content">
+    <div class="row margin-top-50">
+        <div id="login-box" class="col-lg-offset-3 col-lg-6">
+            <h1 id="login-title" class="margin-top-20">ProjeKtor</h1>
+            <input type="text" ng-model="login" placeholder="Login" class="form-control margin-top-20">
+            <input type="password" ng-model="password" placeholder="Password" class="form-control margin-top-20">
+            <div class="clearfix margin-bottom-20"></div>
+            <button class="pull-right btn btn-success" ng-click="loginAction()">Sign in</button>
+            <div class="clearfix margin-bottom-20"></div>
+            <div class="margin-bottom-20 bg-danger" ng-if="error != ''">{{ error }}</div>
+        </div>
+    </div>
+</div>
