@@ -4,6 +4,9 @@
  * Copyright 2015, 2016 - Sébastien Kus
  * Under GNU GPL V3 licence
  */
+.navbar-brand {
+  margin-top: 7px; }
+
 .margin-top-20 {
   margin-top: 20px; }
 
@@ -15,3 +18,19 @@
 
 .margin-top-50 {
   margin-top: 50px; }
+
+.padding-20 {
+  padding: 20px; }
+
+.bordered-grey {
+  border: solid 1px lightgrey; }
+
+.rounded {
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px; }
+
+.form-control {
+  margin-top: 5px !important; }
+
+.result-message {
+  font-size: 1.5em; }

@@ -1,0 +1,28 @@
+<div class="container">
+    <form class="row" ng-if="user != null">
+        <div class="col-xs-6">
+            <label class="sr-only">Nickname</label>
+            <input type="text" class="form-control" placeholder="Nickname" required autofocus ng-model="user.nickname">
+        </div>
+        <div class="col-xs-6">
+            <label class="sr-only">Email</label>
+            <input type="email" class="form-control" placeholder="Email" required ng-model="user.email">
+        </div>
+        <div class="col-xs-6">
+            <label class="sr-only">Password</label>
+            <input type="password" class="form-control" placeholder="Password" ng-model="user.password">
+        </div>
+        <div class="col-xs-6">
+            <label class="sr-only">Password</label>
+            <input type="password" class="form-control" placeholder="Password confirmation" ng-model="user.passwordConfirm">
+        </div>
+        <div class="col-xs-6">
+            <div class="text-success result-message" ng-if="updated">
+                Updated
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <button class="btn btn-success form-control" ng-click="validate()">Done</button>
+        </div>
+    </form>
+</div>

@@ -9,7 +9,7 @@ projektorApp.controller('loginCtrl', ['$scope', '$state', 'projektorHttp', funct
     $scope.loginAction = function() {
         projektorHttp.login($scope.login, $scope.password)
                 .then(function() {
-                    $state.go("home");
+                    $state.go("projektor.home");
                 }, function(reason) {
                     $scope.error = reason;
                 })

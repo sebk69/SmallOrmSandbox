@@ -13,7 +13,6 @@ use Sebk\SmallOrmBundle\Dao\Model;
 
 class User extends Model implements UserInterface, EquatableInterface
 {
-
     public function beforeSave()
     {
         try {
@@ -21,7 +20,8 @@ class User extends Model implements UserInterface, EquatableInterface
                 $this->setPassword($encoder->encodePassword($plainPassword, $this->getSalt()));
             }
         } catch (\Exception $e) {
-
+            $this->setPassword(Model::FIELD_NOT_PERIST);
+            $this->setSalt(Model::FIELD_NOT_PERIST);
         }
 
         if ($this->getCreatedAt() === null) {

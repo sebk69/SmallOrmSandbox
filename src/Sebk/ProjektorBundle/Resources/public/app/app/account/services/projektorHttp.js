@@ -4,22 +4,23 @@
  * Under GNU GPL V3 licence
  */
 
-projektorApp.service("projektorHttp", ["$http", "$state", "$window", "$q", function ($http, $state, $window, $q) {
+projektorApp.service("projektorHttp", function ($http, $state, $window, $q) {
     this.loginMessage = "";
 
     this.login = function (login, password) {
         var deffered = $q.defer();
 
-        $http.post("http://localhost/app_dev.php/api/users/login_check", {_username: login, _password: password}, {headers: {'Content-Type': 'application/json'}})
+        $http.post("http://projektor/api/users/login_check", {_username: login, _password: password}, {headers: {'Content-Type': 'application/json'}})
                 .then(function (response) {
                     this.loginMessage = "";
-                    $window.sessionStorage.setItem("token", response.data);
-                    $state.go("home");
+                    $window.sessionStorage.setItem("token", response.data.token);
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + $window.sessionStorage.getItem("token");
+                    $state.go("projektor.home");
                     deffered.resolve();
                 }, function (response) {
                     deffered.reject("Wrong login or password");
                 })
-                
+
         return deffered.promise;
     }
-}])
+})

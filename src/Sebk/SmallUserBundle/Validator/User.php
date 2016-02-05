@@ -8,6 +8,7 @@
 namespace Sebk\SmallUserBundle\Validator;
 
 use Sebk\SmallOrmBundle\Validator\AbstractValidator;
+use Sebk\SmallOrmBundle\Dao\ModelException;
 
 class User extends AbstractValidator
 {
@@ -39,15 +40,20 @@ class User extends AbstractValidator
             $message .= "This nickname has been already been registered\n";
             $result = false;
         }
-
+        
+        /*
         if ($this->model->getPasswordToEncode() == "" && $this->fromDb == false) {
             $message .= "The password can't be empty\n";
             $result = false;
         }
-
-        if (strlen($this->model->getPasswordToEncode()) < 8) {
-            $message .= "The password length can't be under 8 chars\n";
-            $result = false;
+        */
+        try {
+            if (strlen($this->model->getPasswordToEncode()) < 8) {
+                $message .= "The password length can't be under 8 chars\n";
+                $result = false;
+            }
+        } catch(ModelException $e) {
+            
         }
 
         if (filter_var($this->model->getEmail(), FILTER_VALIDATE_EMAIL) === false) {

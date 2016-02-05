@@ -6,15 +6,14 @@
 
 @import 'colors';
 
-#login-title {
-    color: $projektor;
-    background: #ffffff;
-    padding: 5px;
-    box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.75);
-    border-radius: 10px;
-}
-
-#login-box {
-    border-radius: 20px;
-    background: $light-bg;
+#login {
+    margin-top: 100px;
+    
+    input {
+        margin-top: 5px;
+    }
+    
+    button {
+        margin-top: 5px;
+    }
 }

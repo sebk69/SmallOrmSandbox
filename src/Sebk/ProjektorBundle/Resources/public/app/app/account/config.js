@@ -11,5 +11,11 @@ var configAccount = function($stateProvider) {
                 templateUrl: "app/account/partials/login.html",
                 controller: "loginCtrl",
                 url: "/",
+            })
+            .state({
+                name: "projektor.account",
+                templateUrl: "app/account/partials/account.html",
+                controller: "accountCtrl",
+                url: "/account",
             });
 }

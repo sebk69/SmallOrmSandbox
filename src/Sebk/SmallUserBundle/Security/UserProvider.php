@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is a part of SebkSmallUserBundle
  * Copyright 2015 - Sébastien Kus
@@ -17,8 +18,8 @@ use Sebk\SmallOrmBundle\Factory\Validator;
 use Sebk\SmallOrmBundle\Dao\DaoException;
 use Sebk\SmallUserBundle\Model\User;
 
-class UserProvider implements UserProviderInterface
-{
+class UserProvider implements UserProviderInterface {
+
     protected $userDao;
     protected $validatorFactory;
     protected $encoderFactory;
@@ -26,12 +27,10 @@ class UserProvider implements UserProviderInterface
     /**
      * @param Dao $daoFactory
      */
-    public function __construct(Dao $daoFactory, Validator $validatorFactory,
-                                EncoderFactoryInterface $encoderFactory)
-    {
-        $this->userDao          = $daoFactory->get("SebkSmallUserBundle", "User");
+    public function __construct(Dao $daoFactory, Validator $validatorFactory, EncoderFactoryInterface $encoderFactory) {
+        $this->userDao = $daoFactory->get("SebkSmallUserBundle", "User");
         $this->validatorFactory = $validatorFactory;
-        $this->encoderFactory   = $encoderFactory;
+        $this->encoderFactory = $encoderFactory;
     }
 
     /**
@@ -40,8 +39,7 @@ class UserProvider implements UserProviderInterface
      * @return User
      * @throws UsernameNotFoundException
      */
-    public function loadUserByUsername($username)
-    {
+    public function loadUserByUsername($username) {
         try {
             $user = $this->userDao->findOneBy(array("email" => $username));
         } catch (DaoException $e) {
@@ -60,17 +58,15 @@ class UserProvider implements UserProviderInterface
      * @return type
      * @throws UnsupportedUserException
      */
-    public function refreshUser(UserInterface $user)
-    {
+    public function refreshUser(UserInterface $user) {
         if (!$user instanceof User) {
-            throw new UnsupportedUserException("Instances of ".get_class($user)." are not supported.");
+            throw new UnsupportedUserException("Instances of " . get_class($user) . " are not supported.");
         }
 
         return $this->loadUserByUsername($user->getUsername());
     }
 
-    public function supportsClass($class)
-    {
+    public function supportsClass($class) {
         return $class === 'Sebk\SmallUserBundle\Model\User';
     }
 
@@ -80,10 +76,9 @@ class UserProvider implements UserProviderInterface
      * @param string $plainPassword
      * @return User
      */
-    public function createUser($email, $nickname, $plainPassword)
-    {
+    public function createUser($email, $nickname, $plainPassword) {
         $user = $this->userDao->newModel();
-        
+
         $user->setEncoder($this->encoderFactory->getEncoder($user));
         $user->setPasswordToEncode($plainPassword);
         $user->setEmail($email);
@@ -91,7 +86,7 @@ class UserProvider implements UserProviderInterface
         $user->setSalt(md5(time()));
 
         $userValidator = $this->validatorFactory->get($user);
-        if($userValidator->validate()) {
+        if ($userValidator->validate()) {
             $this->userDao->persist($user);
         } else {
             throw new \Exception($userValidator->getMessage());
@@ -99,4 +94,33 @@ class UserProvider implements UserProviderInterface
 
         return $user;
     }
+
+    /**
+     * @param User $user
+     * @param string $email
+     * @param string $nickname
+     * @param string $plainPassword
+     * @return \Sebk\SmallUserBundle\Security\UserProvider
+     * @throws \Exception
+     */
+    public function updateUser(User $user, $email, $nickname, $plainPassword = null) {
+        $user->setEmail($email);
+        $user->setNickname($nickname);
+        if ($plainPassword !== null) {
+            $user->setEncoder($this->encoderFactory->getEncoder($user));
+            $user->setPasswordToEncode($plainPassword);
+            $user->setSalt(md5(time()));
+        }
+
+        // validate and persist
+        $validator = $this->validatorFactory->get($user);
+        if ($validator->validate()) {
+            $this->userDao->persist($user);
+        } else {
+            throw new \Exception($validator->getMessage());
+        }
+
+        return $this;
+    }
+
 }

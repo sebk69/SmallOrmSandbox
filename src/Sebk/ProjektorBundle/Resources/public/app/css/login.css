@@ -9,13 +9,9 @@
  * Copyright 2015, 2016 - Sébastien Kus
  * Under GNU GPL V3 licence
  */
-#login-title {
-  color: #217022;
-  background: #ffffff;
-  padding: 5px;
-  box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.75);
-  border-radius: 10px; }
-
-#login-box {
-  border-radius: 20px;
-  background: #dddddd; }
+#login {
+  margin-top: 100px; }
+  #login input {
+    margin-top: 5px; }
+  #login button {
+    margin-top: 5px; }
