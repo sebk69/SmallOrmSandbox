@@ -8,6 +8,7 @@
 namespace Sebk\SmallUserBundle\Dao;
 
 use Sebk\SmallOrmBundle\Dao\AbstractDao;
+use \Sebk\SmallOrmBundle\QueryBuilder\QueryBuilder;
 
 class User extends AbstractDao
 {
@@ -23,5 +24,41 @@ class User extends AbstractDao
         $this->addField("enabled", "enabled", false, static::TYPE_BOOLEAN);
         $this->addField("created_at", "createdAt", null, static::TYPE_DATETIME);
         $this->addField("updated_at", "updatedAt", null, static::TYPE_DATETIME);
+        $this->addToMany("roles", array("id" => "idUser"), "UserRole");
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public function baseQuery() {
+        $query = $this->createQueryBuilder("user");
+
+        $query->where()
+            ->firstCondition(1, "=", 1);
+
+        return $query;
+    }
+
+    /**
+     * @param $get
+     * @param QueryBuilder|null $query
+     * @throws \Sebk\SmallOrmBundle\QueryBuilder\QueryBuilderException
+     */
+    public function digestGet($get, QueryBuilder $query = null) {
+        if($query === null) {
+            $query = $this->baseQuery();
+        }
+
+        foreach($get as $key => $param) {
+            switch($key) {
+                case "role":
+                    $query->innerJoin("user", "roles");
+                    $query->getWhere()
+                        ->andCondition($query->getFieldForCondition("role", "roles"), "=", $param);
+                    break;
+            }
+        }
+
+        return $query;
     }
 }

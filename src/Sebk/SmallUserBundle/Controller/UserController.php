@@ -8,6 +8,8 @@
 
 namespace Sebk\SmallUserBundle\Controller;
 
+use Sebk\SmallUserBundle\Model\User;
+use Sebk\SmallUserBundle\Model\UserRole;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -16,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Sebk\SmallOrmBundle\Dao\ModelException;
 
 /**
- * @route("/")
+ * @route("/users")
  */
 class UserController extends Controller {
 
@@ -37,10 +39,10 @@ class UserController extends Controller {
     }
 
     /**
-     * @route("/myself")
-     * @method({"PUT"})
+     * @route("")
+     * @method({"POST"})
      */
-    public function putMyself(Request $request) {
+    public function postMyself(Request $request) {
         // create model object for new user
         $userStdClass = json_decode($request->getContent());
 
@@ -73,4 +75,27 @@ class UserController extends Controller {
         return new Response(json_encode($newUser), 200);
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     * @Route("")
+     * @method({"GET"})
+     */
+    public function query(Request $request) {
+        $userDao = $this->get("sebk_small_orm_dao")
+            ->get("SebkSmallUserBundle", "User");
+
+        $query = $userDao->digestGet($request->query->all());
+
+        if($this->get('security.token_storage')->getToken()->getUser()->hasRole(UserRole::ROLE_ADMIN)) {
+            return new Response(json_encode($userDao->getResult($query)));
+        }
+
+        $result = array();
+        foreach($userDao->getResult($query) as $user) {
+            $result[] = array("id" => $user->getId(), "email" => $user->getEmail(), "nickname" => $user->getNickname());
+        }
+
+        return new Response(json_encode($result));
+    }
 }

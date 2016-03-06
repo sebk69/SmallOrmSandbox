@@ -78,6 +78,12 @@ sebk_small_orm:
                     dao_namespace: Sebk\SmallUserBundle\Dao
                     model_namespace: Sebk\SmallUserBundle\Model
                     validator_namespace: Sebk\SmallUserBundle\Validator
+        SebkProjektorBundle:
+            connections:
+                default:
+                    dao_namespace: Sebk\ProjektorBundle\Dao
+                    model_namespace: Sebk\ProjektorBundle\Model
+                    validator_namespace: Sebk\ProjektorBundle\Validator
 jms_serializer:
     metadata:
         auto_detection: true

@@ -1,3 +1,3 @@
-sebk_projektor_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: SebkProjektorBundle:Default:index }
+sebk_projektor_bundle_routes:
+    resource: "@SebkProjektorBundle/Controller"
+    type:     annotation

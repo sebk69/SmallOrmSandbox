@@ -7,12 +7,20 @@
 
 namespace Sebk\SmallUserBundle\Model;
 
+use Sebk\SmallOrmBundle\Dao\ModelException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Sebk\SmallOrmBundle\Dao\Model;
 
 class User extends Model implements UserInterface, EquatableInterface
 {
+    /**
+     * @throws \Sebk\SmallOrmBundle\Dao\DaoException
+     */
+    public function onLoad() {
+        $this->loadToMany("roles", array());
+    }
+
     public function beforeSave()
     {
         try {
@@ -30,21 +38,64 @@ class User extends Model implements UserInterface, EquatableInterface
         $this->setUpdatedAt(new \DateTime);
     }
 
+    /**
+     * @return array
+     */
     public function getRoles()
     {
-        return array("ROLE_USER");
+        $rolesArray = array();
+        foreach (parent::getRoles() as $role) {
+            $rolesArray[] = $role->getRole();
+        }
+
+        return $rolesArray;
     }
 
+    public function setRoles($roles) {
+        if($roles === null) {
+            parent::setRoles(null);
+        } elseif(count($roles) == 0) {
+            parent::setRoles(array());
+        } elseif($roles[0] instanceof UserRole) {
+            parent::setRoles($roles);
+        } else {
+            // TODO: manage array roles
+        }
+    }
+
+    /**
+     * @param $role
+     * @return bool
+     */
+    public function hasRole($role) {
+        foreach($this->getRoles() as $userRole) {
+            if($role == $userRole) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return string
+     */
     public function getUsername()
     {
         return $this->getEmail();
     }
 
+    /**
+     * @return string
+     */
     public function getPassword()
     {
         return parent::getPassword();
     }
 
+    /**
+     * @return string
+     */
     public function getSalt()
     {
         return parent::getSalt();
@@ -56,6 +107,10 @@ class User extends Model implements UserInterface, EquatableInterface
         $this->setSalt("");
     }
 
+    /**
+     * @param UserInterface $user
+     * @return bool
+     */
     public function isEqualTo(UserInterface $user)
     {
         if (!$user instanceof User) {

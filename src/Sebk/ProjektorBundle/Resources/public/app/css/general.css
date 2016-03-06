@@ -34,3 +34,8 @@
 
 .result-message {
   font-size: 1.5em; }
+
+.input-group {
+  margin-top: 5px !important; }
+  .input-group .form-control {
+    margin-top: 0px !important; }
