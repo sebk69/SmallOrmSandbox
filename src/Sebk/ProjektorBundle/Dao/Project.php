@@ -23,7 +23,6 @@ class Project extends AbstractDao {
         $this->addField("name", "name");
         $this->addField("branch_prefix", "branchPrefix");
         $this->addField("leader_user_id", "leaderId");
-        $this->addToOne("leader", array("leaderId" => "id"), "User", "SebkSmallUserBundle");
     }
 
     /**
